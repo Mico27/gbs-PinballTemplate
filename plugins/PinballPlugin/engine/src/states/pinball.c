@@ -17,6 +17,7 @@
 #include "actor.h"
 #include "game_time.h"
 #include "camera.h"
+#include "trigger.h"
 #include "input.h"
 #include "data/game_globals.h"
 
@@ -303,153 +304,45 @@ void pinball_update(void) BANKED {
 			ball_pos_y = PX_TO_SUBPX(image_height) - ball_radius - 1;
 			ball->vel_y = -(ball->vel_y >> 1);
 		}
-		/*
-		for (UBYTE i = 0; i < numBumperCircles && collision == COLLISION_NONE; ++i)
-		{
-			if (circleCircle(bumperCircles[i].circle, ball, closest))
-			{
-				len = dist(bumperCircles[i].circle.center, ball.center);
-				normal.x = (ball.center.x - bumperCircles[i].circle.center.x) / len;
-				normal.y = (ball.center.y - bumperCircles[i].circle.center.y) / len;
-				float vel = dot(ballVelocity, normal) * (1.0 + bumperCircles[i].rest) - bumperCircles[i].push;
-				ballVelocity.x -= vel * normal.x;
-				ballVelocity.y -= vel * normal.y;
-				ball.center.x += normal.x * (ball.radius + bumperCircles[i].circle.radius + 0.1 - len);
-				ball.center.y += normal.y * (ball.radius + bumperCircles[i].circle.radius + 0.1 - len);
-				collisionPoint.x = closest.x;
-				collisionPoint.y = closest.y;
-				collision = COLLISION_BUMPER;
-				if (i == 0)
-				{
-					updateLines(sprites[2].y - screenY1, sprites[2].y - screenY1 + sprites[2].gfx->h - 1);
-					sprites[2].frame = 1;
-					//sprites[BUMPER_1_NORMAL].flags = Sprite::FLAG_NONE|Sprite::FLAG_LAYER1;
-					//sprites[BUMPER_1_SQUISH].flags = Sprite::FLAG_DRAW|Sprite::FLAG_LAYER1;
-					bumperSteps[0] = BUMPER_STEPS;
-				}
-				else if (i == 1)
-				{
-					updateLines(sprites[3].y - screenY1, sprites[3].y - screenY1 + sprites[3].gfx->h - 1);
-					sprites[3].frame = 1;
-					//sprites[BUMPER_2_NORMAL].flags = Sprite::FLAG_NONE|Sprite::FLAG_LAYER1;
-					//sprites[BUMPER_2_SQUISH].flags = Sprite::FLAG_DRAW|Sprite::FLAG_LAYER1;
-					bumperSteps[1] = BUMPER_STEPS;
-				}
-			}
+					
+		ball_collision_value = get_collision(ball_pos_x, ball_pos_y);
+		if (ball_collision_value)
+		{	
+			switch(ball_collision_value & 7){
+				case 0://force field (slope)
+				break;
+				case 1:
+				case 2://bouncy wall
+				ball_collision_direction = ((((ball_collision_value & 0xF8) - 8) << 1) - 64) + ((rand() & 7) - 3);
+				ball_normal_x = COS(ball_collision_direction);
+				ball_normal_y = SIN(ball_collision_direction);
+				ball->vel_x = ball_normal_x >> 1;
+				ball->vel_y = ball_normal_y >> 1;
+				ball_pos_x += SUBPX_TO_PX(ball_normal_x);
+				ball_pos_y += SUBPX_TO_PX(ball_normal_y);
+				break;
+				case 3://normal wall
+				ball_collision_direction = ((((ball_collision_value & 0xF8) - 8) << 1) - 64);
+				ball_normal_x = COS(ball_collision_direction);
+				ball_normal_y = SIN(ball_collision_direction);
+				script_memory[VAR_NORMALX] = ball_normal_x;
+				script_memory[VAR_NORMALY] = ball_normal_y;
+				ball_dot = DOT(clamped_vel_x, ball_normal_x, clamped_vel_y, ball_normal_y);
+				ball_dot = ((ball_dot << 1) - (ball_dot >> 1)) >> 6;
+				ball->vel_x -= ((ball_dot * ball_normal_x) >> 8);
+				ball->vel_y -= ((ball_dot * ball_normal_y) >> 8);
+				script_memory[VAR_BALLVELX] = ball->vel_x;
+				script_memory[VAR_BALLVELY] = ball->vel_y;
+				ball_pos_x += (ball_normal_x) >> 4;
+				ball_pos_y += (ball_normal_y) >> 4;
+				script_memory[VAR_BALLX] = SUBPX_TO_PX(ball_pos_x);
+				script_memory[VAR_BALLY] = SUBPX_TO_PX(ball_pos_y);
+				script_memory[VAR_TILEX] = SUBPX_TO_TILE(ball_pos_x);
+				script_memory[VAR_TILEY] = SUBPX_TO_TILE(ball_pos_y);
+				break;
+			}					
 		}
-		for (int i = 0; i < numBumperLines && collision == COLLISION_NONE; ++i)
-		{
-			if (lineCircle(bumperLines[i].line, ball, closest))
-			{
-				len = dist(closest, ball.center);
-				normal.x = (ball.center.x - closest.x) / len;
-				normal.y = (ball.center.y - closest.y) / len;
-				float vel = dot(ballVelocity, normal) * (1.0 + bumperLines[i].rest) - bumperLines[i].push;
-				ballVelocity.x -= vel * normal.x;
-				ballVelocity.y -= vel * normal.y;
-				ball.center.x += normal.x * (ball.radius + 0.1 - len);
-				ball.center.y += normal.y * (ball.radius + 0.1 - len);
-				collisionPoint.x = closest.x;
-				collisionPoint.y = closest.y;
-				collision = COLLISION_BUMPER;
-				if (i <= 1)
-				{
-					updateLines(lights[i].y - screenY1, lights[i].y - screenY1 + lights[i].gfx->h - 1);
-					lights[i].state |= Light::STATE_ON;
-					lights[i].timer = 50;
-				}
-			}
-		}
-		*/
-		//if (collision == COLLISION_NONE)
-		//{
-			//updateCollisionBuffer();
-			//Collision	
-			
-			
-			ball_collision_value = get_collision(ball_pos_x, ball_pos_y);
-			if (ball_collision_value)
-			{	
-				switch(ball_collision_value & 7){
-					case 0://force field (slope)
-					break;
-					case 1:
-					case 2://bouncy wall
-					ball_collision_direction = ((((ball_collision_value & 0xF8) - 8) << 1) - 64) + ((rand() & 7) - 3);
-					ball_normal_x = COS(ball_collision_direction);
-					ball_normal_y = SIN(ball_collision_direction);
-					ball->vel_x = ball_normal_x >> 1;
-					ball->vel_y = ball_normal_y >> 1;
-					ball_pos_x += SUBPX_TO_PX(ball_normal_x);
-					ball_pos_y += SUBPX_TO_PX(ball_normal_y);
-					break;
-					case 3://normal wall
-					ball_collision_direction = ((((ball_collision_value & 0xF8) - 8) << 1) - 64);
-					ball_normal_x = COS(ball_collision_direction);
-					ball_normal_y = SIN(ball_collision_direction);
-					script_memory[VAR_NORMALX] = ball_normal_x;
-					script_memory[VAR_NORMALY] = ball_normal_y;
-					ball_dot = DOT(clamped_vel_x, ball_normal_x, clamped_vel_y, ball_normal_y);
-					ball_dot = ((ball_dot << 1) - (ball_dot >> 1)) >> 6;
-					ball->vel_x -= ((ball_dot * ball_normal_x) >> 8);
-					ball->vel_y -= ((ball_dot * ball_normal_y) >> 8);
-					script_memory[VAR_BALLVELX] = ball->vel_x;
-					script_memory[VAR_BALLVELY] = ball->vel_y;
-					ball_pos_x += (ball_normal_x) >> 4;
-					ball_pos_y += (ball_normal_y) >> 4;
-					script_memory[VAR_BALLX] = SUBPX_TO_PX(ball_pos_x);
-					script_memory[VAR_BALLY] = SUBPX_TO_PX(ball_pos_y);
-					script_memory[VAR_TILEX] = SUBPX_TO_TILE(ball_pos_x);
-					script_memory[VAR_TILEY] = SUBPX_TO_TILE(ball_pos_y);
-					break;
-				}					
-			}
-		//}
-		/*
-		for (int i = 0; i < 4 && collision == COLLISION_NONE; ++i)
-		{
-			if (lineCircle(flipperLines[i], ball, closest))
-			{
-				float rad = dist(closest, flipperCircles[i & 2].center);
-				float vel = flipperAngularVelocity[i / 2] * 1.2 * PI * rad;
-				len = dist(closest, ball.center);
-				normal.x = (ball.center.x - closest.x) / len;
-				normal.y = (ball.center.y - closest.y) / len;
-				vel += std::abs(dot(ballVelocity, normal) * 1.2);
-				ballVelocity.x += vel * normal.x;
-				ballVelocity.y += vel * normal.y;
-				ball.center.x += normal.x * (ball.radius + 0.1 - len);
-				ball.center.y += normal.y * (ball.radius + 0.1 - len);
-				collisionPoint.x = closest.x;
-				collisionPoint.y = closest.y;
-				if (i / 2 == 0)
-					collision = COLLISION_LFLIPPER;
-				else
-					collision = COLLISION_RFLIPPER;
-			}
-		}
-		for (int i = 0; i < 4 && collision == COLLISION_NONE; ++i)
-		{
-			if (circleCircle(flipperCircles[i], ball, closest))
-			{
-				float rad = dist(closest, flipperCircles[i & 2].center);
-				float vel = flipperAngularVelocity[i / 2] * 1.2 * PI * rad;
-				len = dist(flipperCircles[i].center, ball.center);
-				normal.x = (ball.center.x - flipperCircles[i].center.x) / len;
-				normal.y = (ball.center.y - flipperCircles[i].center.y) / len;
-				vel += std::abs(dot(ballVelocity, normal) * 1.2);
-				ballVelocity.x += vel * normal.x;
-				ballVelocity.y += vel * normal.y;
-				ball.center.x += normal.x * (ball.radius + flipperCircles[i].radius + 0.1 - len);
-				ball.center.y += normal.y * (ball.radius + flipperCircles[i].radius + 0.1 - len);
-				collisionPoint.x = closest.x;
-				collisionPoint.y = closest.y;
-				if (i / 2 == 0)
-					collision = COLLISION_LFLIPPER;
-				else
-					collision = COLLISION_RFLIPPER;
-			}
-		}*/
+		
 		for (UBYTE flipper_idx = 0; flipper_idx < flippers_len; flipper_idx++){	
 			flipper_t * flipper = (flippers + flipper_idx);
 			actor_t * other_actor = (actors + flipper->actor_idx);
@@ -538,6 +431,9 @@ void pinball_update(void) BANKED {
 	} else if (camera_y > a_y + PX_TO_SUBPX(camera_deadzone_y) - PX_TO_SUBPX(camera_offset_y)) { 
 		camera_y = a_y + PX_TO_SUBPX(camera_deadzone_y) - PX_TO_SUBPX(camera_offset_y);
 	}
+	
+	trigger_activate_at_intersection(&PLAYER.bounds, &PLAYER.pos, 0);
+	
 }
 
 void vm_load_collision_masks(SCRIPT_CTX * THIS) OLDCALL BANKED {	
