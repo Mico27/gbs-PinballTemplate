@@ -1,0 +1,116 @@
+{
+  "_resourceType": "variables",
+  "variables": [
+    {
+      "id": "0",
+      "name": "CurrentCollision",
+      "symbol": "var_currentcollision"
+    },
+    {
+      "id": "1",
+      "name": "CurrentDirection",
+      "symbol": "var_currentdirection"
+    },
+    {
+      "id": "2",
+      "name": "NormalX",
+      "symbol": "var_normalx"
+    },
+    {
+      "id": "3",
+      "name": "NormalY",
+      "symbol": "var_normaly"
+    },
+    {
+      "id": "4",
+      "name": "Dot",
+      "symbol": "var_dot"
+    },
+    {
+      "id": "5",
+      "name": "BallVelX",
+      "symbol": "var_ballvelx"
+    },
+    {
+      "id": "6",
+      "name": "BallVelY",
+      "symbol": "var_ballvely"
+    },
+    {
+      "id": "7",
+      "name": "PixelData",
+      "symbol": "var_pixeldata"
+    },
+    {
+      "id": "8",
+      "name": "PixelY",
+      "symbol": "var_pixely"
+    },
+    {
+      "id": "9",
+      "name": "PixelX",
+      "symbol": "var_pixelx"
+    },
+    {
+      "id": "10",
+      "name": "TileData",
+      "symbol": "var_tiledata"
+    },
+    {
+      "id": "11",
+      "name": "TileX",
+      "symbol": "var_tilex"
+    },
+    {
+      "id": "12",
+      "name": "TileY",
+      "symbol": "var_tiley"
+    },
+    {
+      "id": "13",
+      "name": "Distance",
+      "symbol": "var_distance"
+    },
+    {
+      "id": "14",
+      "name": "BallX",
+      "symbol": "var_ballx"
+    },
+    {
+      "id": "15",
+      "name": "BallY",
+      "symbol": "var_bally"
+    },
+    {
+      "id": "16",
+      "name": "Direction",
+      "symbol": "var_direction"
+    },
+    {
+      "id": "17",
+      "name": "TMP",
+      "symbol": "var_tmp"
+    },
+    {
+      "id": "18",
+      "name": "COSINE",
+      "symbol": "var_cosine"
+    },
+    {
+      "id": "19",
+      "name": "SINE",
+      "symbol": "var_sine"
+    },
+    {
+      "id": "20",
+      "name": "TMP_X",
+      "symbol": "var_tmp_x"
+    },
+    {
+      "id": "21",
+      "name": "TMP_Y",
+      "symbol": "var_tmp_y"
+    }
+  ],
+  "constants": []
+}

@@ -1,0 +1,12 @@
+{
+  "_resourceType": "background",
+  "id": "5ef458be-2a47-4fad-af27-e7237acdf99d",
+  "name": "test_collision",
+  "symbol": "bg_test_collision",
+  "tileColors": "00348+",
+  "filename": "test_collision.png",
+  "width": 24,
+  "height": 35,
+  "imageWidth": 192,
+  "imageHeight": 280
+}

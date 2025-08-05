@@ -1,0 +1,11 @@
+{
+  "_resourceType": "tileset",
+  "id": "f3e6897e-30a8-4b91-8c92-418d937f22ab",
+  "name": "collision_tileset",
+  "symbol": "tileset_collision_tileset",
+  "width": 16,
+  "height": 8,
+  "imageWidth": 128,
+  "imageHeight": 64,
+  "filename": "collision_tileset.png"
+}

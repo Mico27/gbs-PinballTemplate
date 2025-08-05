@@ -1,0 +1,23 @@
+{
+  "_resourceType": "scene",
+  "id": "1d87ec18-d2fb-4168-98d4-a39aca8ec3d1",
+  "_index": 2,
+  "name": "Collision Layer 2",
+  "backgroundId": "5054b554-7068-4c58-80a9-80b3083258a5",
+  "tilesetId": "",
+  "width": 24,
+  "height": 35,
+  "type": "PINBALL",
+  "colorModeOverride": "none",
+  "paletteIds": [],
+  "spritePaletteIds": [],
+  "collisions": "038+4b6+53!0313+002+4b2+533+03d+00!036+002+534+0312+7b!13!002+53!5b2+0311+6b!1b2+002+5b3+0310+6b!03!1b2+03!1b!5b2+63!039+006+6b!032+23!632+1b!632+039+007+032+232+63!23!632+038+008+032+232+63!232+63!038+008+033+2b!6b!03!23!6b!03a+004+035+2b!6b!03!2b!6b!0313+1b!7b!03!2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+2b!6b!0316+1b!7b!032+",
+  "autoFadeSpeed": 1,
+  "symbol": "scene_3",
+  "x": 488,
+  "y": 32,
+  "script": [],
+  "playerHit1Script": [],
+  "playerHit2Script": [],
+  "playerHit3Script": []
+}

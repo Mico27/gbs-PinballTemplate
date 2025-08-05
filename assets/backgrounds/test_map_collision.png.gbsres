@@ -1,0 +1,12 @@
+{
+  "_resourceType": "background",
+  "id": "7c917bfb-07ba-4738-bdda-c364486c1a8f",
+  "name": "test_map_collision",
+  "symbol": "bg_test_map_collision",
+  "tileColors": "",
+  "filename": "test_map_collision.png",
+  "width": 20,
+  "height": 36,
+  "imageWidth": 160,
+  "imageHeight": 288
+}

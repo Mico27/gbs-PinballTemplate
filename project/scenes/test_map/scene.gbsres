@@ -1,0 +1,23 @@
+{
+  "_resourceType": "scene",
+  "id": "d9d4434a-2ef1-4219-8da2-76845bd7e438",
+  "_index": 3,
+  "name": "Test_map",
+  "backgroundId": "169349b8-dc99-4a24-bfa0-aba97957bcad",
+  "tilesetId": "",
+  "width": 20,
+  "height": 36,
+  "type": "PINBALL",
+  "colorModeOverride": "none",
+  "paletteIds": [],
+  "spritePaletteIds": [],
+  "collisions": "",
+  "autoFadeSpeed": 1,
+  "symbol": "scene_4",
+  "x": 88,
+  "y": 344,
+  "script": [],
+  "playerHit1Script": [],
+  "playerHit2Script": [],
+  "playerHit3Script": []
+}

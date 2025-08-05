@@ -1,0 +1,12 @@
+{
+  "_resourceType": "background",
+  "id": "87462bc7-6447-408a-9101-86fd459297dd",
+  "name": "test_level_bottom",
+  "symbol": "bg_test_level_bottom",
+  "tileColors": "",
+  "filename": "test_level_bottom.png",
+  "width": 24,
+  "height": 18,
+  "imageWidth": 192,
+  "imageHeight": 144
+}
